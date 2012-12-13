@@ -1,7 +1,6 @@
-require 'active_record'
-require 'active_record/version'
-
 require 'rubygems'
+require 'active_record'
+
 require 'tempfile'
 require 'pathname'
 
@@ -22,8 +21,12 @@ ActiveRecord::Base.establish_connection(config['test'])
 
 def create_class(class_name)
   ActiveRecord::Base.send(:include, Ekiben::Initializer)
-  Object.send(:remove_const, class_name) rescue nil
-  klass = Object.const_set(class_name, Class.new(ActiveRecord::Base))
+
+  if not class_name.safe_constantize.nil?
+    Object.send(:remove_const, class_name)
+  end
+  
+  klass = Object.const_set(class_name, Class.new(ActiveRecord::Base)) 
 
   klass.class_eval do
     include Ekiben::Initializer
@@ -47,7 +50,7 @@ def create_order_model(*modules)
   create_class("Order").tap do |klass|
     klass.resource_is modules
 
-    has_many :order_items
+    klass.has_many :order_items
   end
 end
 
@@ -56,8 +59,8 @@ def create_order_items_model(*modules)
   create_class("OrderItem").tap do |klass|
     klass.resource_is modules
 
-    belongs_to :order
-    belongs_to :product
+    klass.belongs_to :order
+    klass.belongs_to :product
   end
 end
 

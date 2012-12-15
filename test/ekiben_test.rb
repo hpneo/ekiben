@@ -1,15 +1,14 @@
-  require './test/helper'
+require './test/helper'
 
 class EkibenTest < Test::Unit::TestCase
   context "Product model" do
     def setup
-      create_product_model(:openable, :category_filtrable, :date_rangeable, :product_stock_reflectable, :barcodable, :statusable, :identifiable)
+      create_product_model(:openable, :date_rangeable, :product_stock_reflectable, :barcodable, :statusable, :identifiable)
       @product = Product.new
     end
 
     should "include selected modules" do
       assert @product.class.ancestors.include?(::Bentou::Models::Openable)
-      assert @product.class.ancestors.include?(::Bentou::Models::CategoryFiltrable)
       assert @product.class.ancestors.include?(::Bentou::Models::DateRangeable)
       assert @product.class.ancestors.include?(::Bentou::Models::ProductStockReflectable)
       assert @product.class.ancestors.include?(::Bentou::Models::Barcodable)
@@ -20,7 +19,7 @@ class EkibenTest < Test::Unit::TestCase
 
   context "Order model" do
     def setup
-      create_product_model(:openable, :category_filtrable, :date_rangeable, :product_stock_reflectable, :barcodable, :statusable, :identifiable)
+      create_product_model(:openable, :date_rangeable, :product_stock_reflectable, :barcodable, :statusable, :identifiable)
       create_order_model(:openable, :date_rangeable, :product_stock_reflectable, :identifiable, :items_manager)
       create_order_items_model(:discountable)
 

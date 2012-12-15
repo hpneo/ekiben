@@ -3,7 +3,6 @@ require 'active_support/inflector'
 
 require 'ekiben/models/base'
 require 'ekiben/models/barcodable'
-require 'ekiben/models/category_filtrable'
 require 'ekiben/models/date_rangeable'
 require 'ekiben/models/discountable'
 require 'ekiben/models/identifiable'
@@ -13,6 +12,8 @@ require 'ekiben/models/product_stock_reflectable'
 require 'ekiben/models/statusable'
 
 module Ekiben
+  extend ActiveSupport::Concern
+  
   module ClassMethods
     def resource_is(args)
       args.each do |module_name|

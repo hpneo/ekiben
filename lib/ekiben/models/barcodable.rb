@@ -1,4 +1,5 @@
 require 'barby'
+require 'chunky_png'
 require 'barby/barcode/code_128'
 require 'barby/outputter/png_outputter'
 
@@ -8,17 +9,16 @@ module Bentou
       include Base
       extend ActiveSupport::Concern
 
-      module InstanceMethods
+      included do
         before_create :create_barcode
+      end
 
-        def create_barcode
-          barcode = Barby::Code128B.new(self.code)
-          filename = File.join(Rails.root, "public/system/barcodes/#{self.id}.png")
-          File.open(filename, 'w'){|f| f.write barcode.to_png }
+      def create_barcode
+        barcode = Barby::Code128B.new(self.code)
+        filename = File.join(Rails.root, "public/system/barcodes/#{self.id}.png")
+        File.open(filename, 'w'){|f| f.write barcode.to_png }
 
-          self.barcode = File.open(filename)
-        end
-        
+        self.barcode = File.open(filename)
       end
     end
   end

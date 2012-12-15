@@ -21,7 +21,7 @@ class EkibenTest < Test::Unit::TestCase
     def setup
       create_product_model(:openable, :date_rangeable, :product_stock_reflectable, :barcodable, :statusable, :identifiable)
       create_order_model(:openable, :date_rangeable, :product_stock_reflectable, :identifiable, :items_manager)
-      create_order_items_model(:discountable)
+      create_order_items_model
 
       @product = Product.new
       @order = Order.new
@@ -34,8 +34,6 @@ class EkibenTest < Test::Unit::TestCase
       assert @order.class.ancestors.include?(::Bentou::Models::ProductStockReflectable)
       assert @order.class.ancestors.include?(::Bentou::Models::Identifiable)
       assert @order.class.ancestors.include?(::Bentou::Models::ItemsManager)
-      
-      assert @order.order_items.first.class.ancestors.include?(::Bentou::Models::Discountable)
     end
   end
 end

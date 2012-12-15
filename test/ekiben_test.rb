@@ -15,6 +15,35 @@ class EkibenTest < Test::Unit::TestCase
       assert @product.class.ancestors.include?(::Bentou::Models::Statusable)
       assert @product.class.ancestors.include?(::Bentou::Models::Identifiable)
     end
+
+    should "have Openable methods" do
+      assert @product.class.respond_to?(:opened)
+      assert @product.class.respond_to?(:closed)
+      assert @product.class.respond_to?(:opened_records?)
+
+      assert @product.respond_to?(:set_as_opened)
+      assert @product.respond_to?(:set_as_closed)
+    end
+
+    should "have DateRangeable methods" do
+      assert @product.class.respond_to?(:between?)
+    end
+
+    should "have ProductStockReflectable methods" do
+      assert @product.respond_to?(:update_stocks)
+    end
+
+    should "have Barcodable methods" do
+      assert @product.respond_to?(:create_barcode)
+    end
+
+    should "have Statusable methods" do
+      assert @product.respond_to?(:set_as_locked)
+    end
+
+    should "have Identifiable methods" do
+      assert @product.respond_to?(:next_identifier)
+    end
   end
 
   context "Order model" do

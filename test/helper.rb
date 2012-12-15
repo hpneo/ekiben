@@ -41,6 +41,14 @@ end
 def create_product_model(*modules)
   create_products_table
   create_class("Product").tap do |klass|
+    if modules.include?(:statusable)
+      klass.const_set('STATUSES', {
+        :finished => 'Finished',
+        :locked => 'Locked',
+        :internal_sale => 'Internal sale only'
+      })
+    end
+
     klass.resource_is modules
   end
 end

@@ -6,6 +6,7 @@ module Bentou
       included do
         scope :between?, lambda { |start_date, end_date|
           resource_name = self.name.underscore.singularize
+          
           case resource_name
             when 'shipping_list'
               where("received_at BETWEEN ? AND ?", start_date, end_date)
